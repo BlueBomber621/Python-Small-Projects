@@ -5,6 +5,7 @@ from text import Text
 import time
 import random
 
+
 view = Screen()
 view.setup(width=600, height=600)
 view.bgcolor("black")
@@ -14,6 +15,13 @@ view.tracer(0)
 player_snake = Snake()
 for i in range(3):
     player_snake.new_body((0 - i * 20, 0))
+
+highscore = 0
+try:
+    with open("./dayProjects/week3/snakegame/highscore.txt", mode="r") as file:
+        highscore = int(file.read())
+except:
+    highscore = 0
 
 game_running = True
 time_space = 0.25
@@ -37,7 +45,8 @@ view.onkeypress(key="Left", fun=player_snake.left)
 view.onkeypress(key="Right", fun=player_snake.right)
 
 new_food = Food((random.randint(-14, 14) * 20, random.randint(-14, 14) * 20))
-scoreboard = Text("Score: 0", (0, 260), "white")
+scoreboard = Text("Score: 0", (-120, 260), "white")
+highscoreboard = Text("Highscore: " + str(highscore), (120, 260), "white")
 game_over_text = Text("", (0, 0), "red")
 
 while game_running:
@@ -64,6 +73,11 @@ while game_running:
         player_snake.new_body(player_snake.snake_body[-1].pos())
         new_food.goto((random.randint(-14, 14) * 20, random.randint(-14, 14) * 20))
     time.sleep(time_space)
+    if snake_score > highscore:
+        with open("./dayProjects/week3/snakegame/highscore.txt", mode="w") as file:
+            file.write(str(snake_score))
+            highscore = snake_score
+            highscoreboard.rewrite("Highscore: " + str(highscore))
 
 
 view.exitonclick()
