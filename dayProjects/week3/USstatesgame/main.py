@@ -23,13 +23,10 @@ game_running = True
 
 while game_running:
     guess = view.textinput(f"{len(state_guess)}/50 States Guessed", "Guess one of the 50 states.")
-    if guess == "":
+    if guess == "" or not guess:
         guess = "exit"
     if guess.lower() == "exit":
-        missed_states = []
-        for state in state_names:
-            if not state_guess.__contains__(state):
-                missed_states.append(state)
+        missed_states = [state for state in state_names if not state_guess.__contains__(state)]
         new_data = pandas.DataFrame(missed_states)
         new_data.to_csv("./dayProjects/week3/USstatesgame/states_to_learn.csv")
         game_running = False
@@ -44,25 +41,22 @@ while game_running:
         else:
             if state_names.__contains__(guess) and state_guess.__contains__(guess):
                 background.goto(0, -290)
-                background.write("Already guessed that! You lose!", False, "center", ("Arial", 16, "normal"))
+                background.write("Already guessed that! You lose!", ("Arial", 16, "normal"))
                 background.goto(0, 0)
                 game_running = False
             else:
                 background.goto(0, -290)
-                background.write("Not one of the states! You lose!", False, "center", ("Arial", 16, "normal"))
+                background.write("Not one of the states! You lose!", ("Arial", 16, "normal"))
                 background.goto(0, 0)
                 game_running = False
         if len(state_names) <= len(state_guess):
             background.goto(0, -290)
-            background.write("You got all the states! You win!", False, "center", ("Arial", 16, "normal"))
+            background.write("You got all the states! You win!", ("Arial", 16, "normal"))
             background.goto(0, 0)
             game_running = False
 
         if not game_running:
-            missed_states = []
-            for state in state_names:
-                if not state_guess.__contains__(state):
-                    missed_states.append(state)
+            missed_states = [state for state in state_names if not state_guess.__contains__(state)]
             new_data = pandas.DataFrame(missed_states)
             new_data.to_csv("./dayProjects/week3/USstatesgame/states_to_learn.csv")
             game_running = False
