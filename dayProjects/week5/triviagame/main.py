@@ -32,7 +32,7 @@ def continue_question():
             button.grid_remove()
         question_answer_buttons.clear()
         category_label.grid_remove()
-        displayed_question.itemconfig(displayed_question.label, fg="black")
+        displayed_question.itemconfig(displayed_question.label, fill="black")
         trivia.question_typer(f"Congratulations, you completed the trivia with a score of:\n{trivia.score}/{trivia.maxscore}", displayed_question)
         
 
